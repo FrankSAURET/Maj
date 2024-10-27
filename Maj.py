@@ -48,7 +48,7 @@ def extraire_zip(zip_path, extract_to):
 def mise_a_jour():
     fichiers = lister_fichiers_inx_avec_chaine(CUR_FOLDER, 'franksauret')
     for fichier in fichiers:
-        if fichier not in 'Maj':
+        if fichier not in 'Mij':
             nomzip=f"{fichier}.zip"
             download_path = os.path.join(os.getenv('TEMP'),nomzip)
             extract_path = os.path.join(os.getenv('TEMP'),'extension_extract')
