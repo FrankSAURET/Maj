@@ -1,0 +1,3 @@
+[submodule "InkScape"]
+	path = InkScape
+	url = https://github.com/FrankSAURET/InkScape.git
