@@ -1022,6 +1022,11 @@ class MainWindow(tk.Frame):
         lbl_github = tk.Label(parent, text=github_url, font=("Arial", 11, "underline"), fg=self.couleur_lien, bg=self.couleur_fond, cursor="hand2")
         lbl_github.pack(pady=(10, 10))
         lbl_github.bind("<Button-1>", lambda e: os.system(f'start {github_url}'))
+        # Lien pour l'aide aux développeurs
+        github_aide_url = "https://franksauret.github.io/Maj/"
+        lbl_github_aide = tk.Label(parent, text="Documentation développeur ", font=("Arial", 11, "underline"), fg=self.couleur_lien, bg=self.couleur_fond, cursor="hand2")
+        lbl_github_aide.pack(pady=(10, 10))
+        lbl_github_aide.bind("<Button-1>", lambda e: os.system(f'start {github_aide_url}'))
     
     def log(self, message, erreur=False, gras_part=None):
         self.text_log.config(state=tk.NORMAL)

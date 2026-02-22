@@ -1,3 +1,20 @@
+/* Variante fond noir pour zone arrondie */
+.rounded-section.dark {
+    background: #111;
+    color: #f4fbf7;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+    padding: 22px 24px 18px;
+    margin: 18px 0;
+}
+/* Zone arrondie réutilisable */
+.rounded-section {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+    padding: 22px 24px 18px;
+    margin: 18px 0;
+}
 /* Palette vert camaïeu pour la documentation du gestionnaire d’extensions Inkscape */
 :root {
     --green-dark: #0b3d2e;
@@ -214,7 +231,7 @@ li+li {
     font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
     font-size: 0.95rem;
     position: relative;
-    background: none;
+    background: #111;
 }
 .code-block::before {
     content: "JSON";

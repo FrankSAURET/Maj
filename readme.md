@@ -1,7 +1,9 @@
-
 # ✨ Gestionnaire d’extensions Inkscape – Maj
 
 ![🧩](https://img.icons8.com/color/48/000000/puzzle.png) **Maj** est un gestionnaire d’extensions pour Inkscape, permettant d’installer, mettre à jour, valider et gérer facilement vos extensions depuis une interface graphique moderne.
+
+- 🟢 **Vous développez des extensions InkScape ?** Vous pouvez utiliser ce gestionnaire simplement. [Cliquez ici pour voir l’aide](https://franksauret.github.io/Maj/).
+
 
 ## 🚀 Fonctionnalités principales
 
