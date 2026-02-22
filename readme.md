@@ -1,20 +1,56 @@
-# OptimLaser
------
-Version 2024.1
-For inkscape > V 1.3
------
-Cette extension propose une mise à jour de toutes les extensions que j'ai faites et que vous avez installé. Il ne se lance pas tout seul. Il se met aussi à jour lui même.
 
-Usage
------
-Le lanceur se trouve dans **extensions > Mise à jour des extensions de Frank SAURET...** tout en bas de la liste des extensions.
-Après l'avoir lancé, il faut relancer InkScape.
+# ✨ Gestionnaire d’extensions Inkscape – Maj
 
-Pour la première utilisation il suffit de copier le fichier Maj.inx et le fichier Maj.py dans votre dossier des extension.
-Sous windows %appdata%\inkscape\extensions (ou dans un sous-dossier de celui-ci).
+![🧩](https://img.icons8.com/color/48/000000/puzzle.png) **Maj** est un gestionnaire d’extensions pour Inkscape, permettant d’installer, mettre à jour, valider et gérer facilement vos extensions depuis une interface graphique moderne.
+
+## 🚀 Fonctionnalités principales
+
+- **🔍 Scan des extensions installées**  
+	Parcourt le dossier utilisateur, détecte les extensions, affiche leur état et version.
+
+- **📦 Installation & désinstallation**  
+	Installe ou retire des extensions en un clic.
+
+- **🛠️ Mise à jour automatique**  
+	Vérifie les mises à jour disponibles et propose l’upgrade des extensions obsolètes.
+
+- **🌐 Gestion des dépôts**  
+	Supporte les dépôts GitHub, Gitlab, Codeberg et Bitbucket, avec ajout/suppression de sources. Possibilité aisée d'ajout d'autre dépot. Attention seul Github a été testé.
+
+- **🖼️ Interface graphique personnalisée**  
+	Utilise Tkinter avec des widgets colorés, tooltips avancés, icônes, et styles configurables.
+
+- **🧪 Validation**  
+	Vérifie la compatibilité, l’intégrité et le format des extensions (Info.json, fichiers, version).
+
+- **📝 Configuration flexible**  
+	Personnalisation des couleurs, polices, sujets et préférences via un fichier config.
+
+## 🖥️ Aperçu de l’interface
+![Présentation Maj](Gestionnaire-d’extensions-Inkscape.gif)
+
+## ⚙️ Structure du projet
+
+```
+Maj/
+│
+├── core/         # Logique métier : installer, valider, updater, gestion des dépôts
+├── gui/          # Interface graphique Tkinter, widgets personnalisés
+├── data/         # Configurations, listes d’extensions, dépôts
+├── assets/       # Icônes, images
+├── locale/       # Traductions
+└── Maj.py        # Point d’entrée
+```
+
+## 📚 Installation
+
+1. Copier le dossier `Maj` dans le répertoire des extensions Inkscape.
+2. Lancer `Maj.py` pour démarrer le gestionnaire.
+
+## 👨‍💻 Auteur & Licence
+
+- **Auteur** : Frank SAURET & GitHub Copilot
+- **Licence** : GPLv2
+---
 
 
-redémarrer inkscape.
-
-
-All code is offered under Licence : GPLV2.

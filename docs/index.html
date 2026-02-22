@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentation développeur – Gestionnaire d’extensions Inkscape</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="vert.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <h1><span class="icon">🧩</span><span>Gestionnaire d’extensions Inkscape – Documentation développeur</span>
+            </h1>
+            <p class="subtitle">
+                Cette page explique comment structurer et publier vos extensions Inkscape pour qu’elles soient
+                automatiquement détectées, listées, installées et mises à jour par le gestionnaire d’extensions.
+            </p>
+            <div class="badge-row">
+                <div class="badge"><span class="dot"></span>Compatible GitHub / GitLab / Codeberg / Bitbucket</div>
+                <div class="badge"><span class="dot"></span>JSON structuré &amp; versionné</div>
+                <div class="badge"><span class="dot"></span>Multi‑dépôts &amp; multi‑extensions</div>
+            </div>
+        </header>
+
+        <main>
+            <section>
+                <h2><span class="section-icon">🚀</span>Objectif de cette documentation</h2>
+                <p>
+                    Cette documentation s’adresse aux <strong>développeurs d’extensions Inkscape</strong> qui souhaitent
+                    rendre
+                    leurs extensions <strong>installables et maintenables</strong> via le gestionnaire d’extensions.
+                </p>
+                <p>
+                    L’idée est simple&nbsp;: si votre dépôt respecte la structure décrite ci‑dessous, le gestionnaire
+                    pourra&nbsp;:
+                </p>
+                <ul>
+                    <li>lister automatiquement vos extensions,</li>
+                    <li>les installer dans le bon dossier utilisateur,</li>
+                    <li>les mettre à jour en comparant les versions locales et en ligne,</li>
+                    <li>les présenter proprement à l’utilisateur final.</li>
+                </ul>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">📦</span><span>Résumé rapide</span></div>
+                        <span class="card-tag">Vue d’ensemble</span>
+                    </div>
+                    <p>
+                        Pour être compatible, votre dépôt doit contenir au minimum&nbsp;:
+                    </p>
+                    <ul>
+                        <li>un fichier <span class="inline-code">list_of_inkscape_extensions.json</span>,
+                        </li>
+                        <li>un ou plusieurs dépôts d’extension contenant chacun un dossier au nom de l’extension et un fichier <span
+                                class="inline-code">Info.json</span>,</li>
+
+                    </ul>
+                </div>
+
+                <h2><span class="section-icon">📁</span>Structure générale d’un dépôt compatible</h2>
+
+                <h3>Arborescence minimale</h3>
+                <div class="code-block">
+                    <pre><code>mon-depot-extension/
+├─ list_of_inkscape_extensions.json
+├─ extension_1/
+│  ├─ Info.json
+│  ├─ mon_script_1.inx
+│  ├─ mon_script_1.py
+│  └─ ressources/
+│     └─ ...
+└─ extension_2/
+   ├─ Info.json
+   ├─ mon_script_2.inx
+   └─ mon_script_2.py</code></pre>
+                </div>
+<p class="note">
+    Toutes les extensions peuvent être dans le même dépôt, mais aussi dans des dépôts différents. C’est le fichier list_of_inkscape_extensions.json qui indique où les trouver.
+</p>
+                <p>
+                    Le gestionnaire télécharge l’archive du dépôt, lit <span
+                        class="inline-code">list_of_inkscape_extensions.json</span>,
+                    puis installe les dossiers/fichiers indiqués dans la clé <span class="inline-code">download</span>.
+                </p>
+
+                <div class="note">
+                    <strong>Important&nbsp;:</strong> le dépôt doit être accessible en lecture publique sur la
+                    plateforme choisie
+                    (GitHub, GitLab, Codeberg, Bitbucket…).
+                </div>
+
+                <h2><span class="section-icon">📄</span>Fichier <code>list_of_inkscape_extensions.json</code></h2>
+
+                <p>
+                    Ce fichier décrit toutes les extensions disponibles dans votre dépôt. Il se trouve à la
+                    <strong>racine du dépôt</strong>.
+                </p>
+
+                <h3>Structure générale</h3>
+                <div class="code-block">
+                    <pre><code class="json">{
+    "author": "Frank SAURET",
+    "namespace": "FrankSAURET",
+    "URL": "https://github.com/du dépôt qui contient le fichier list_of_inkscape_extensions.json",
+    "updated": "2026-02-16",
+    "extensions": [
+        {
+        "name": "Nom lisible de l’extension",
+        "short_description": "Description courte affichée dans le gestionnaire",
+        "subject": ["Texte", "SVG", "Export"],
+        "author": "Votre nom ou pseudo",
+        "version": "1.0.0",
+        "repos": "https://github.com/votre-compte/mon-depot-extension",
+        "download": ["extension_1/"],
+        "default_install_dir": "user",
+        "compatibility": "Inkscape ≥ 1.2",
+        "start_here": "Extensions &gt; Mon menu &gt; Mon extension"
+        }
+  ]
+}</code></pre>
+                </div>
+
+                <h3>Définition des Clés</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Clé</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>name</code></td>
+                            <td>string</td>
+                            <td>Nom affiché dans le gestionnaire et dans la liste des extensions installées.</td>
+                        </tr>
+                        <tr>
+                            <td><code>short_description</code></td>
+                            <td>string</td>
+                            <td>Description courte (1–2 lignes) pour l’utilisateur.</td>
+                        </tr>
+                        <tr>
+                            <td><code>subject</code></td>
+                            <td>string ou array</td>
+                            <td>Catégorie(s) de l’extension (filtrage dans le gestionnaire).</td>
+                        </tr>
+                        <tr>
+                            <td><code>author</code></td>
+                            <td>string</td>
+                            <td>Nom ou pseudo de l’auteur.</td>
+                        </tr>
+                        <tr>
+                            <td><code>version</code></td>
+                            <td>string</td>
+                            <td>Version de l’extension (format <span class="inline-code">X.Y.Z</span> ou X ou X.Y).</td>
+                        </tr>
+                        <tr>
+                            <td><code>repos</code></td>
+                            <td>string (URL)</td>
+                            <td>URL du dépôt (GitHub, GitLab, Codeberg, Bitbucket…) contenant cette extension.</td>
+                        </tr>
+                        <tr>
+                            <td><code>download</code></td>
+                            <td>string ou array</td>
+                            <td>Chemin(s) à copier depuis l’archive du dépôt vers le dossier d’extensions Inkscape.</td>
+                        </tr>
+                        <tr>
+                            <td><code>default_install_dir</code></td>
+                            <td>string</td>
+                            <td>Indication sur le type d’installation (ex. <span class="inline-code">"user"</span>).</td>
+                        </tr>
+                        <tr>
+                            <td><code>compatibility</code></td>
+                            <td>string</td>
+                            <td>Version(s) d’Inkscape supportées.</td>
+                        </tr>
+                        <tr>
+                            <td><code>start_here</code></td>
+                            <td>string</td>
+                            <td>Chemin de menu dans Inkscape pour retrouver l’extension.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note">
+                    Tous les fichiers de l’extension doivent se trouver dans un même dossier dans le dépôt de l’extension.
+                </div>
+
+                <h2><span class="section-icon">🧾</span>Fichier <code>Info.json</code> dans chaque extension</h2>
+
+                <p>
+                    Chaque extension installée possède un fichier <span class="inline-code">Info.json</span> dans son
+                    dossier. Il est utilisé
+                    pour&nbsp;:
+                </p>
+
+                <ul>
+                    <li>identifier l’extension installée,</li>
+                    <li>connaître sa version locale,</li>
+                    <li>permettre la comparaison avec la version en ligne.</li>
+                </ul>
+                <div class="note warning">
+                    <strong>Attention&nbsp;:</strong> <span class="inline-code">Info.json</span> avec un « I » majuscule.
+                </div>
+                <h3>Exemple de <code>Info.json</code></h3>
+                <div class="code-block">
+                    <pre><code>{
+    "type": "InkScape extension",
+    "name": "Nom lisible de l’extension",
+    "short_description": "Description plus détaillée de l’extension.",
+    "author": "Votre nom",
+    "version": "1.0.0",
+    "download": ["extension_1/"],
+    "repos": "https://github.com/votre-compte/mon-depot-extension"
+
+}</code></pre>
+                </div>
+
+                <div class="note warning">
+                    <strong>Attention&nbsp;:</strong> la clé <span class="inline-code">type</span> doit être exactement
+                    <span class="inline-code">"InkScape extension"</span> pour que le gestionnaire reconnaisse
+                    l’extension comme valide.
+                </div>
+
+                <h2><span class="section-icon">🔗</span>Clés <code>repos</code> et <code>download</code></h2>
+
+                <h3>Clé <code>repos</code></h3>
+                <p>
+                    La clé <span class="inline-code">repos</span> doit contenir l’URL du dépôt racine, par
+                    exemple&nbsp;:
+                </p>
+                <ul>
+                    <li><span class="inline-code">https://github.com/votre-compte/mon-depot-extension</span></li>
+                    <li><span class="inline-code">https://gitlab.com/votre-compte/mon-depot-extension</span></li>
+                    <li><span class="inline-code">https://codeberg.org/votre-compte/mon-depot-extension</span></li>
+                    <li><span class="inline-code">https://bitbucket.org/votre-compte/mon-depot-extension</span></li>
+                </ul>
+                <p>
+                    Le gestionnaire utilise cette URL avec un système de <span class="inline-code">providers</span>
+                    paramétriques pour
+                    construire automatiquement les URLs de téléchargement.
+                </p>
+
+                <h3>Clé <code>download</code></h3>
+                <p>
+                    La clé <span class="inline-code">download</span> indique quels dossiers/fichiers doivent être copiés
+                    depuis l’archive
+                    du dépôt vers le dossier d’extensions Inkscape.
+                </p>
+
+                <p>Elle peut être&nbsp;:</p>
+                <ul>
+                    <li>une chaîne&nbsp;: <span class="inline-code">"extension_1/"</span></li>
+                    <li>ou une liste&nbsp;: <span class="inline-code">["extension_1/", "extension_2/"]</span></li>
+                </ul>
+
+                <div class="code-block">
+                    <pre><code>{
+  "name": "Pack d’extensions",
+  "version": "1.2.0",
+  "repos": "https://github.com/votre-compte/mon-depot-extension",
+  "download": [
+    "extension_1/",
+    "extension_2/"
+  ]
+}</code></pre>
+                </div>
+
+                <div class="note">
+                    <strong>Règle simple&nbsp;:</strong> les chemins de <span class="inline-code">download</span> sont
+                    relatifs à la racine
+                    du dépôt.
+                </div>
+
+                <h2><span class="section-icon">📈</span>Gestion des versions et mises à jour</h2>
+
+                <p>
+                    Le gestionnaire compare la version locale (dans <span class="inline-code">Info.json</span> installé)
+                    et la version en
+                    ligne (dans <span class="inline-code">Info.json</span> du dépôt) pour déterminer si une mise à jour
+                    est disponible.
+                </p>
+
+                <h3>Comparaison de versions</h3>
+                <p>
+                    Les versions sont comparées numériquement&nbsp;: <span class="inline-code">"1.10.0"</span> &gt;
+                    <span class="inline-code">"1.2.0"</span>. Utilisez un format simple&nbsp; avec l’année YYYY.MM.PATCH ou YYYY.RELEASE.PATCH <span class="inline-code">2026.1.0</span> ou <span class="inline-code">2026.02.1</span> qui permet à l’utilisateur de jauger immédiatement de la fraicheur du produit.
+                </p>
+                
+
+                <div class="note">
+                    <strong>Conseil&nbsp;:</strong> incrémentez la version à chaque modification publiée pour que les
+                    utilisateurs
+                    bénéficient des mises à jour automatiques.
+                </div>
+
+                <h2><span class="section-icon">🧪</span>Checklist avant publication</h2>
+
+                <ul>
+                    <li>✅ Le dépôt est public.</li>
+                    <li>✅ <span class="inline-code">list_of_inkscape_extensions.json</span> est présent à la racine.
+                    </li>
+                    <li>✅ Chaque extension a un dossier dédié avec un <span class="inline-code">Info.json</span>.</li>
+                    <li>✅ Les chemins <span class="inline-code">download</span> pointent vers des dossiers/fichiers existants.</li>
+                    <li>✅ Les URL <span class="inline-code">repos</span> sont correctes.</li>
+                    <li>✅ Les versions sont cohérentes entre <span
+                            class="inline-code">list_of_inkscape_extensions.json</span> et
+                        <span class="inline-code">Info.json</span>.
+                    </li>
+                </ul>
+
+                <h2><span class="section-icon">📬</span>Intégration dans le gestionnaire</h2>
+
+                <p>
+                    Pour que vos extensions apparaissent dans le gestionnaire, le dépôt qui contient le fichier <span class="inline-code">list_of_inkscape_extensions.json</span> doit être ajouté dans la configuration de l’onglet paramètre.
+                </p>
+                <p>
+                    Pour partager vos extensions, fournissez simplement l’URL
+                    de ce dépôt.
+                </p>
+            </section>
+
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <div class="sidebar-title">
+                        <span class="icon">🧭</span><span>Plan rapide</span>
+                    </div>
+                    <ul class="checklist">
+                        <li><span class="check">•</span><span>Structure du dépôt</span></li>
+                        <li><span class="check">•</span><span><span
+                                    class="inline-code">list_of_inkscape_extensions.json</span></span></li>
+                        <li><span class="check">•</span><span><span class="inline-code">Info.json</span> par
+                                extension</span></li>
+                        <li><span class="check">•</span><span>Clés <span class="inline-code">repos</span> &amp; <span
+                                    class="inline-code">download</span></span></li>
+                        <li><span class="check">•</span><span>Gestion des versions</span></li>
+                        <li><span class="check">•</span><span>Checklist de publication</span></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <div class="sidebar-title">
+                        <span class="icon">🛠️</span><span>Formats à respecter</span>
+                    </div>
+                    <ul class="checklist">
+                        <li><span class="check">✓</span><span>JSON valide (UTF‑8, guillemets doubles)</span></li>
+                        <li><span class="check">✓</span><span>Chemins relatifs à la racine du dépôt</span></li>
+                        <li><span class="check">✓</span><span>Versions au format <span
+                                    class="inline-code">X.Y.Z</span></span></li>
+                        <li><span class="check">✓</span><span><span class="inline-code">type = "InkScape
+                                    extension"</span> dans <span class="inline-code">Info.json</span></span></li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+
+        <footer>
+            Documentation développeur – Gestionnaire d’extensions Inkscape
+        </footer>
+    </div>
+</body>
+
+</html>
