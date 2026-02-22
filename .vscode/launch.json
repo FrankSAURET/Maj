@@ -8,7 +8,7 @@
             "name": "Exécuter/Déboguer Maj (Maj.py)",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/Maj.py",
+            "program": "${workspaceFolder}/Maj/Maj.py",
             "console": "integratedTerminal"
         }
     ]

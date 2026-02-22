@@ -1,5 +1,5 @@
 - traduction en anglais
 - ajouter un bouton tout mettre à jour
-- créer l'aide d'utilisation 
-- créer l'aide pour utilisation pour extensions externes
+- Créer un executable
+- Gérer une mise à jour régulière
 
