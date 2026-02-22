@@ -1,0 +1,16 @@
+{
+  "https://github.com/FrankSAURET": [
+    {
+      "name": "Jointure_rapide",
+      "short_description": "Extension pour créer rapidement des jointures pour la Découpe laser.",
+      "subject": ["Découpe laser", "Assemblage"],
+      "author": "Jarrett Rainimo",
+      "version": "2024.3",
+      "default_install_dir": "FrankSAURET",
+      "compatibility": ["Inkscape >= 1.2.0"],
+      "repos": "https://github.com/FrankSAURET/Jointure_rapide",
+      "download": ["Jointure_rapide/"],
+      "start_here": "Extensions > Découpe Laser > Assemblage rapide"
+    }
+  ]
+}

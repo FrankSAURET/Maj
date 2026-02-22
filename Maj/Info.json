@@ -1,0 +1,9 @@
+{
+  "type": "InkScape extension",
+  "name": "Maj",
+  "short_description": "Teste l'installation d'une extension",
+  "author": "Frank SAURET",
+  "version": "2026.1",
+  "download": ["Tableau/"],
+  "repos": "https://github.com/FrankSAURET/OptimLaser"
+}
