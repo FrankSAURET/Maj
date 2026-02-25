@@ -1,6 +1,0 @@
-msgid ""
-msgstr ""
-"Language: none\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-
-# Modèle vide pour traduction future

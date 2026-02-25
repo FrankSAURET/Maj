@@ -1,15 +1,18 @@
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
-"""
-Point d'entrée du gestionnaire d’extensions Inkscape.
-Lance l’interface graphique Tkinter et initialise la configuration.
-"""
-from gui.main_window import MainWindow
-from core.config import Config
-import tkinter as tk
-
-
 def main():
+
+    import os
+    import tkinter as tk
+    from i18n import setup as i18n_setup
+
+    # Traduction : gettext lit automatiquement la variable LANGUAGE
+    # définie par Inkscape selon ses préférences de langue.
+    localedir = os.path.join(os.path.dirname(__file__), 'locale')
+    i18n_setup(localedir)
+
+    # Imports APRÈS la configuration de la traduction
+    from gui.main_window import MainWindow
+    from core.config import Config
+
     config = Config.load()
     root = tk.Tk()
     min_w, min_h = 600, 580
@@ -18,8 +21,8 @@ def main():
     x = (ws // 2) - (min_w // 2)
     y = (hs // 2) - (min_h // 2)
     root.geometry(f"{min_w}x{min_h}+{x}+{y}")
-    root.resizable(False, False)  
-    app = MainWindow(root, config)
+    root.resizable(False, False)
+    _app = MainWindow(root, config)
     root.mainloop()
 
 if __name__ == "__main__":

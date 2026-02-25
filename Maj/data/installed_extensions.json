@@ -11,17 +11,17 @@
     "repos": "https://github.com/FrankSAURET/Jointure_rapide",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Jointure_rapide"
   },
-  "Boîte brique": {
+  "Boite brique": {
     "type": "InkScape extension",
-    "name": "Boîte brique",
+    "name": "Boite brique",
     "short_description": "Génére des boîtes parallélépipédiques.",
     "author": "Frank SAURET",
-    "version": "2024.2",
+    "version": "2024.3",
     "download": [
       "boite_brique/"
     ],
-    "repos": "https://github.com/FrankSAURET/boite_brique",
-    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\boite_brique"
+    "repos": "https://github.com/FrankSAURET/Boite_brique",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\boite_brique\\boite_brique"
   },
   "Engrenage": {
     "type": "InkScape extension",
@@ -35,16 +35,16 @@
     "repos": "https://github.com/FrankSAURET/Engrenage",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Engrenage"
   },
-  "Maj": {
+  "M à j": {
     "type": "InkScape extension",
-    "name": "Maj",
-    "short_description": "Teste l'installation d'une extension",
+    "name": "M à j",
+    "short_description": "Gestionnaire d'extensions InkScape.",
     "author": "Frank SAURET",
-    "version": "2026.1",
+    "version": "2026.2",
     "download": [
-      "Tableau/"
+      "Maj/"
     ],
-    "repos": "https://github.com/FrankSAURET/OptimLaser",
+    "repos": "https://github.com/FrankSAURET/Maj",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Maj"
   },
   "Optimisation pour découpe laser": {

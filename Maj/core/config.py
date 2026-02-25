@@ -3,28 +3,30 @@ Gestion de la configuration globale du gestionnaire d’extensions.
 """
 import json
 import os
+from typing import Any
+from i18n import _
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'config.json')
 
 
 class Config:
-    def __init__(self, repos=None, update_frequency=7, colors=None, subjects=None, show_only_updates=True, format_text=None):
+    def __init__(self, repos: list[str] | None = None, update_frequency: int = 7, colors: dict[str, str] | None = None, subjects: list[str] | None = None, show_only_updates: bool = True, format_text: dict[str, Any] | None = None) -> None:
         # Charger repos.json
         repos_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'repos.json')
         with open(repos_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        self.repos_providers = data["providers"]
+        self.repos_providers: list[dict[str, Any]] = data["providers"]
 
-        self.repos = repos or []
-        self.update_frequency = update_frequency
-        self.colors = colors or {}
-        self.subjects = subjects or []
-        self.show_only_updates = show_only_updates
-        self.format_text = format_text or {}
+        self.repos: list[str] = repos or []
+        self.update_frequency: int = update_frequency
+        self.colors: dict[str, str] = colors or {}
+        self.subjects: list[str] = subjects or []
+        self.show_only_updates: bool = show_only_updates
+        self.format_text: dict[str, Any] = format_text or {}
 
 
     @classmethod
-    def load(cls):
+    def load(cls) -> 'Config':
         try:
             with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -40,7 +42,7 @@ class Config:
         except Exception:
             return cls()
 
-    def save(self):
+    def save(self) -> None:
         # Sauvegarde au format imbriqué (Params/Template)
         data = {
             'Params': [

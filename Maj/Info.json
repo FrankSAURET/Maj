@@ -1,9 +1,9 @@
 {
   "type": "InkScape extension",
-  "name": "Maj",
-  "short_description": "Gestionnaire d'extensions InkScape",
+  "name": "M à j",
+  "short_description": "Gestionnaire d'extensions InkScape.",
   "author": "Frank SAURET",
-  "version": "2026.2",
+  "version": "2026.3",
   "download": ["Maj/"],
   "repos": "https://github.com/FrankSAURET/Maj"
 }

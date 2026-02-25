@@ -1,6 +1,5 @@
-"""
-Installation, désinstallation des extensions.
-"""
+"""Installation, désinstallation des extensions."""
+from i18n import _
 from core.config import Config
 
 class Installer:

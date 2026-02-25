@@ -1,7 +1,6 @@
-"""
-Gestion des dépôts d’extensions (GitHub, ZIP, local).
-"""
+"""Gestion des dépôts d'extensions (GitHub, ZIP, local)."""
 import json
+from i18n import _
 from core.config import Config
 
 class RepoManager:

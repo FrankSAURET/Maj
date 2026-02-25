@@ -1,6 +1,5 @@
-"""
-Gestion des mises à jour des extensions.
-"""
+"""Gestion des mises à jour des extensions."""
+from i18n import _
 from core.config import Config
 
 class Updater:

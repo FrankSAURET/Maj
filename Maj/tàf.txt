@@ -1,5 +1,3 @@
-- traduction en anglais
 - ajouter un bouton tout mettre à jour
 - Créer un executable
-- Gérer une mise à jour régulière
 

@@ -45,7 +45,7 @@
         "text_author": "#0074D9",
         "text_desc": "#145a32",
         "text_version": "#c0392b",
-        "text_higlight": "#028D7A",
+        "text_highlight": "#028D7A",
         "text_by": "#747474",
         "text_compatibility": "#96A9DD"
       },
@@ -80,6 +80,11 @@
         "font_litle": [
           "Arial",
           9
+        ],
+        "font_warning": [
+          "Arial",
+          10,
+          "italic"
         ]
       }
     }
