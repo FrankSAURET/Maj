@@ -303,3 +303,17 @@ msgstr ""
 #, python-brace-format
 msgid "Licence : {license}"
 msgstr ""
+
+#: gui\main_window.py:1081
+msgid "Documentation développeur"
+msgstr ""
+
+#: gui\installed_extensions_list_widget.py
+#, python-brace-format
+msgid " | Version en ligne : {version}"
+msgstr ""
+
+#: gui\installed_extensions_list_widget.py
+#, python-brace-format
+msgid "(Version installée: {local_version}{online_txt})"
+msgstr ""

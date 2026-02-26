@@ -46,6 +46,7 @@ class MainWindow(tk.Frame):
                
         installed_by_repo: dict[str, dict[str, Any]] = {}
         current_lang: str = i18n.lang_code
+        import urllib.request
         for root, _, files in os.walk(ext_dir):
             if 'Info.json' in files:
                 info_path = os.path.join(root, 'Info.json')
@@ -54,24 +55,60 @@ class MainWindow(tk.Frame):
                         info = json.load(f)
                     # Vérifier le type
                     if info.get('type') == 'InkScape extension':
-                        # Charger la traduction locale si langue != fr
-                        if current_lang and current_lang != 'fr':
-                            translated_path = os.path.join(
-                                root, 'locale', current_lang, 'LC_MESSAGES', 'Info.json'
-                            )
-                            if os.path.isfile(translated_path):
-                                try:
-                                    with open(translated_path, 'r', encoding='utf-8') as ft:
-                                        translated_info = json.load(ft)
-                                    for tkey in ('name', 'short_description'):
-                                        if tkey in translated_info:
-                                            info[tkey] = translated_info[tkey]
-                                except Exception:
-                                    pass
-                        info['Installed_dir'] = root
-                        local_name = info.get('name')
+                        download_val = info.get('download', [0])
+                        download_dir = str(download_val[0])
+                        repo_url = info.get('repos', None)
+                        info_to_write = dict(info)
+                        # Si langue != fr, tenter de charger Info.json en ligne
+                        if current_lang and current_lang != 'fr' and repo_url:
+                            # On suppose que repo_url est une URL GitHub brute ou similaire
+                            # On tente de récupérer Info.json traduit depuis le dépôt distant
+                            try:
+                                # Déduire le provider
+                                provider = self.provider_utils.get_provider_for_url(repo_url)
+                                if provider:
+                                    owner, repo = self.provider_utils.split_repo_url(repo_url, provider)
+                                    # Tester toutes les branches possibles
+                                    found_online = False
+                                    for branch_try in provider["alternative_main_branch"]:
+                                        url_online = self.provider_utils.build_file_url(
+                                            provider,
+                                            owner,
+                                            repo,
+                                            branch_try,
+                                            f"{download_dir}locale/{current_lang}/LC_MESSAGES/Info.json"
+                                        )
+                                        try:
+                                            with urllib.request.urlopen(url_online, timeout=5) as resp:
+                                                online_info = json.load(resp)
+                                            # On fusionne les champs traduits dans info_to_write
+                                            for tkey in ('name', 'short_description'):
+                                                if tkey in online_info:
+                                                    info_to_write[tkey] = online_info[tkey]
+                                            found_online = True
+                                            break
+                                        except Exception:
+                                            continue
+                                    # Si pas trouvé en ligne, fallback sur locale locale
+                                    if not found_online:
+                                        translated_path = os.path.join(
+                                            root, download_dir, 'locale', current_lang, 'LC_MESSAGES', 'Info.json'
+                                        )
+                                        if os.path.isfile(translated_path):
+                                            try:
+                                                with open(translated_path, 'r', encoding='utf-8') as ft:
+                                                    translated_info = json.load(ft)
+                                                for tkey in ('name', 'short_description'):
+                                                    if tkey in translated_info:
+                                                        info_to_write[tkey] = translated_info[tkey]
+                                            except Exception:
+                                                pass
+                            except Exception:
+                                pass
+                        info_to_write['Installed_dir'] = root
+                        local_name = info_to_write.get('name')
                         if local_name:
-                            installed_by_repo[local_name] = info
+                            installed_by_repo[local_name] = info_to_write
                 except Exception as e:
                     self.log(f"Erreur lecture {info_path}: {e}", erreur=True)
         # Tri alphabétique
@@ -217,6 +254,7 @@ class MainWindow(tk.Frame):
 
                         ext_items: list[Any] = ext_list['extensions'] if isinstance(ext_list, dict) and 'extensions' in ext_list else []  # type: ignore[assignment]
 
+
                         # Télécharger la version traduite si langue != fr
                         if current_lang and current_lang != 'fr':
                             url_translated = self.provider_utils.build_file_url(
@@ -229,9 +267,9 @@ class MainWindow(tk.Frame):
                                     tr_list = json.loads(tr_data)
                                     tr_items: list[Any] = tr_list.get('extensions', []) if isinstance(tr_list, dict) else []  # type: ignore[assignment]
                                     for tr_ext in tr_items:  # type: ignore[assignment]
-                                        tr_name: str = tr_ext.get('_original_name') or tr_ext.get('name') or ''  # type: ignore[union-attr]
-                                        if tr_name:
-                                            translated_exts[tr_name] = tr_ext
+                                        tr_repos: str = str(tr_ext.get('repos', ''))  # type: ignore[union-attr]
+                                        if tr_repos:
+                                            translated_exts[tr_repos] = tr_ext
                             except Exception:
                                 pass  # Pas de traduction disponible, on continue
 
@@ -245,9 +283,9 @@ class MainWindow(tk.Frame):
                                 if key in ext:
                                     new_ext[key] = ext[key]
                             # Appliquer les traductions si disponibles
-                            ext_name_fr: str = str(ext.get('name', ''))  # type: ignore[union-attr]
-                            if ext_name_fr in translated_exts:
-                                tr = translated_exts[ext_name_fr]
+                            ext_repos: str = str(ext.get('repos', ''))  # type: ignore[union-attr]
+                            if ext_repos in translated_exts:
+                                tr = translated_exts[ext_repos]
                                 for tkey in ('name', 'short_description', 'subject', 'start_here'):
                                     if tkey in tr:
                                         new_ext[tkey] = tr[tkey]
@@ -1039,11 +1077,6 @@ class MainWindow(tk.Frame):
             self.refresh_repo_combobox()
             self.log(_("Dépôt supprimé : {repo}").format(repo=repo))
 
-    def save_frequency(self) -> None:
-        freq: str = str(self.freq_var.get()) if hasattr(self, 'freq_var') else '7'  # type: ignore[attr-defined]
-        self.log(_("Fréquence de vérification enregistrée : {freq} jours").format(freq=freq))
-        # TODO: Sauvegarder dans la config réelle
-
     def create_tab_about(self, parent: tk.Frame) -> None:
         sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
         try:
@@ -1078,7 +1111,7 @@ class MainWindow(tk.Frame):
         lbl_github.bind("<Button-1>", lambda e: webbrowser.open(github_url))
         # Lien pour l'aide aux développeurs
         github_aide_url = "https://franksauret.github.io/Maj/"
-        lbl_github_aide = tk.Label(parent, text="Documentation développeur ", font=("Arial", 11, "underline"), fg=self.couleur_lien, bg=self.couleur_fond, cursor="hand2")
+        lbl_github_aide = tk.Label(parent, text=_("Documentation développeur"), font=("Arial", 11, "underline"), fg=self.couleur_lien, bg=self.couleur_fond, cursor="hand2")
         lbl_github_aide.pack(pady=(10, 10))
         lbl_github_aide.bind("<Button-1>", lambda e: webbrowser.open(github_aide_url))
     

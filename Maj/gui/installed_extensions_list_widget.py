@@ -160,7 +160,7 @@ class InstalledExtensionsListWidget(tk.Frame):
             for outdated in self.outdated_extensions:
                 if outdated.get('name') == ext.get('name'):
                     upgradable = True
-                    online_txt = f" | Version en ligne : {outdated.get('online_version')}"
+                    online_txt = _(" | Version en ligne : {version}").format(version=outdated.get('online_version'))
                     break
             else:
                 online_txt = _(" - À jour")
@@ -204,7 +204,7 @@ class InstalledExtensionsListWidget(tk.Frame):
                      fg=self.get_color('text_author')).pack(side="left")
 
             # ? Ligne 2
-            if ext.get("name", "") == "M à j":
+            if ext.get("repos", "") == "https://github.com/FrankSAURET/Maj":
                 # Ligne 1 : description courte
                 desc_label = tk.Label(row_description,
                                       text=ext.get("short_description", ""),
@@ -266,7 +266,7 @@ class InstalledExtensionsListWidget(tk.Frame):
             left_frame.pack(side="left", fill="x", expand=True)
 
             tk.Label(row_version,
-                     text=f"(Version installée: {local_version}{online_txt})",
+                     text=_("(Version installée: {local_version}{online_txt})").format(local_version=local_version, online_txt=online_txt),
                      font=self.font_ver,
                      bg=bg_color,
                      fg=self.get_color('text_version')).pack(side="left")

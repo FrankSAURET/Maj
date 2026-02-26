@@ -308,3 +308,17 @@ msgstr "Author: {author}"
 #, python-brace-format
 msgid "Licence : {license}"
 msgstr "License: {license}"
+
+#: gui\main_window.py:1081
+msgid "Documentation développeur"
+msgstr "Developer documentation"
+
+#: gui\installed_extensions_list_widget.py
+#, python-brace-format
+msgid " | Version en ligne : {version}"
+msgstr " | Online version: {version}"
+
+#: gui\installed_extensions_list_widget.py
+#, python-brace-format
+msgid "(Version installée: {local_version}{online_txt})"
+msgstr "(Installed version: {local_version}{online_txt})"

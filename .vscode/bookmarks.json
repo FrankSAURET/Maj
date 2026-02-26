@@ -1,0 +1,29 @@
+{
+	"files": [
+		{
+			"path": "Maj/gui/main_window.py",
+			"bookmarks": [
+				{
+					"line": 287,
+					"column": 0,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "Maj/gui/installed_extensions_list_widget.py",
+			"bookmarks": [
+				{
+					"line": 162,
+					"column": 0,
+					"label": ""
+				},
+				{
+					"line": 268,
+					"column": 0,
+					"label": ""
+				}
+			]
+		}
+	]
+}

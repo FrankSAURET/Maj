@@ -31,7 +31,7 @@ class ProviderUtils:
         return str(provider["download_file_url"].format(
             owner=owner, repo=repo, branch=branch, path=path
         ))
-
+    
     def build_zip_url(self, provider: dict[str, Any], owner: str, repo: str, branch: str) -> str:
         """Construit l'URL ZIP du dossier racine."""
         return str(provider["download_folder_url"].format(

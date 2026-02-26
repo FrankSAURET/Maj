@@ -90,11 +90,11 @@
     }
   ],
   "subjects": [
-    "Assemblage",
-    "Chemin",
-    "Création d'objets",
-    "Découpe laser",
-    "Formes",
-    "Tableau"
+    "Joint",
+    "Laser cutting",
+    "Object creation",
+    "Path",
+    "Shapes",
+    "Table"
   ]
 }
