@@ -131,7 +131,7 @@ class MainWindow(tk.Frame):
         Compare les versions installées et en ligne, retourne la liste des extensions à mettre à jour.
         """
         installed_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'installed_extensions.json')
-
+        current_lang: str = i18n.lang_code
         # Charger les extensions installées
         try:
             with open(installed_path, 'r', encoding='utf-8') as f:
@@ -186,7 +186,7 @@ class MainWindow(tk.Frame):
                         owner,
                         repo,
                         branch_try,
-                        download_path + "Info.json"
+                        f"{download_path}locale/{current_lang}/LC_MESSAGES/Info.json"
                     )
 
                     try:

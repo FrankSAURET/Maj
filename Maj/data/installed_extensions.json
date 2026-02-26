@@ -1,20 +1,8 @@
 {
-  "Assemblage rapide": {
+  "Brick Box": {
     "type": "InkScape extension",
-    "name": "Assemblage rapide",
-    "short_description": "Extension pour créer rapidement des jointures pour la découpe laser.",
-    "author": "Jarrett Rainimo",
-    "version": "2024.3",
-    "download": [
-      "Jointure_rapide/"
-    ],
-    "repos": "https://github.com/FrankSAURET/Jointure_rapide",
-    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Jointure_rapide"
-  },
-  "Boite brique": {
-    "type": "InkScape extension",
-    "name": "Boite brique",
-    "short_description": "Génére des boîtes parallélépipédiques.",
+    "name": "Brick Box",
+    "short_description": "Generates parallelepiped boxes.",
     "author": "Frank SAURET",
     "version": "2024.3",
     "download": [
@@ -23,10 +11,10 @@
     "repos": "https://github.com/FrankSAURET/Boite_brique",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\boite_brique"
   },
-  "Engrenage": {
+  "Gear": {
     "type": "InkScape extension",
-    "name": "Engrenage",
-    "short_description": "Génère des engrenages paramétriques pour Inkscape.",
+    "name": "Gear",
+    "short_description": "Generates parametric gears for Inkscape.",
     "author": "Frank SAURET",
     "version": "2025.2",
     "download": [
@@ -35,10 +23,10 @@
     "repos": "https://github.com/FrankSAURET/Engrenage",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Engrenage"
   },
-  "Optimisation pour découpe laser": {
+  "Optimization for laser cutting": {
     "type": "InkScape extension",
-    "name": "Optimisation pour découpe laser",
-    "short_description": "Optimise les dessins SVG pour la découpe laser dans Inkscape, en supprimant les doublons et en améliorant les tracés.",
+    "name": "Optimization for laser cutting",
+    "short_description": "Optimizes SVG drawings for laser cutting in Inkscape by removing duplicates and improving paths.",
     "author": "Frank SAURET",
     "version": "2026.0",
     "download": [
@@ -47,10 +35,22 @@
     "repos": "https://github.com/FrankSAURET/OptimLaser",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Optimlaser"
   },
+  "Quick Joint": {
+    "type": "InkScape extension",
+    "name": "Quick Joint",
+    "short_description": "Extension to quickly create joints for laser cutting.",
+    "author": "Jarrett Rainimo",
+    "version": "2024.3",
+    "download": [
+      "Jointure_rapide/"
+    ],
+    "repos": "https://github.com/FrankSAURET/Jointure_rapide",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Jointure_rapide"
+  },
   "Remove duplicate lines": {
     "type": "InkScape extension",
     "name": "Remove duplicate lines",
-    "short_description": "Une extension Inkscape pour supprimer les segments de ligne dupliqués avec une option de tolérance pour détecter les segments comme identiques.",
+    "short_description": "An Inkscape extension to remove duplicate line segments with a tolerance option to detect segments as identical.",
     "author": "Ellen Wasbø",
     "version": "2026.1",
     "download": [
@@ -59,10 +59,10 @@
     "repos": "https://github.com/FrankSAURET/removeDuplicateLines",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\removeDuplicateLines"
   },
-  "Tableau": {
+  "Table": {
     "type": "InkScape extension",
-    "name": "Tableau",
-    "short_description": "Dessine un tableau avec des coins arrondis.Dessine un tableau avec des coins arrondis.Dessine un tableau avec des coins arrondis.Dessine un tableau avec des coins arrondis.",
+    "name": "Table",
+    "short_description": "Draws a table with rounded corners.",
     "author": "Frank SAURET",
     "version": "2026.2",
     "download": [
