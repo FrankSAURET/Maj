@@ -79,7 +79,7 @@ class MainWindow(tk.Frame):
                                             f"{download_dir}locale/{current_lang}/LC_MESSAGES/Info.json"
                                         )
                                         try:
-                                            with urllib.request.urlopen(url_online, timeout=5) as resp:
+                                            with urllib.request.urlopen(url_online, timeout=5, context=_create_ssl_context()) as resp:
                                                 online_info = json.load(resp)
                                             # On fusionne les champs traduits dans info_to_write
                                             for tkey in ('name', 'short_description'):
@@ -181,6 +181,7 @@ class MainWindow(tk.Frame):
                 # Tester toutes les branches possibles
                 for branch_try in provider["alternative_main_branch"]:
 
+                    # On tente d'abord le Info.json traduit
                     url_Infojson = self.provider_utils.build_file_url(
                         provider,
                         owner,
@@ -188,6 +189,30 @@ class MainWindow(tk.Frame):
                         branch_try,
                         f"{download_path}locale/{current_lang}/LC_MESSAGES/Info.json"
                     )
+                    # Si le fichier n'existe pas en ligne, fallback sur le Info.json racine
+                    try:
+                        with urllib.request.urlopen(url_Infojson, timeout=5, context=_create_ssl_context()) as response:
+                            info_data = response.read().decode('utf-8')
+                            info_json = json.loads(info_data)
+                            online_version = info_json.get('version')
+                            break  # Succès → on arrête
+                    except Exception:
+                        # Fallback : Info.json racine (non traduit)
+                        url_Infojson_root = self.provider_utils.build_file_url(
+                            provider,
+                            owner,
+                            repo,
+                            branch_try,
+                            f"{download_path}Info.json"
+                        )
+                        try:
+                            with urllib.request.urlopen(url_Infojson_root, timeout=5, context=_create_ssl_context()) as response:
+                                info_data = response.read().decode('utf-8')
+                                info_json = json.loads(info_data)
+                                online_version = info_json.get('version')
+                                break
+                        except Exception:
+                            continue
 
                     try:
                         with urllib.request.urlopen(url_Infojson, timeout=5, context=_create_ssl_context()) as response:

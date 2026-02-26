@@ -1,44 +1,8 @@
 {
-  "Brick Box": {
+  "Assemblage rapide": {
     "type": "InkScape extension",
-    "name": "Brick Box",
-    "short_description": "Generates parallelepiped boxes.",
-    "author": "Frank SAURET",
-    "version": "2024.3",
-    "download": [
-      "boite_brique/"
-    ],
-    "repos": "https://github.com/FrankSAURET/Boite_brique",
-    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\boite_brique"
-  },
-  "Gear": {
-    "type": "InkScape extension",
-    "name": "Gear",
-    "short_description": "Generates parametric gears for Inkscape.",
-    "author": "Frank SAURET",
-    "version": "2025.2",
-    "download": [
-      "Engrenage/"
-    ],
-    "repos": "https://github.com/FrankSAURET/Engrenage",
-    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Engrenage"
-  },
-  "Optimization for laser cutting": {
-    "type": "InkScape extension",
-    "name": "Optimization for laser cutting",
-    "short_description": "Optimizes SVG drawings for laser cutting in Inkscape by removing duplicates and improving paths.",
-    "author": "Frank SAURET",
-    "version": "2026.0",
-    "download": [
-      "OptimLaser/"
-    ],
-    "repos": "https://github.com/FrankSAURET/OptimLaser",
-    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Optimlaser"
-  },
-  "Quick Joint": {
-    "type": "InkScape extension",
-    "name": "Quick Joint",
-    "short_description": "Extension to quickly create joints for laser cutting.",
+    "name": "Assemblage rapide",
+    "short_description": "Extension pour créer rapidement des jointures pour la découpe laser.",
     "author": "Jarrett Rainimo",
     "version": "2024.3",
     "download": [
@@ -47,10 +11,70 @@
     "repos": "https://github.com/FrankSAURET/Jointure_rapide",
     "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Jointure_rapide"
   },
+  "Boite brique": {
+    "type": "InkScape extension",
+    "name": "Boite brique",
+    "short_description": "Génére des boîtes parallélépipédiques.",
+    "author": "Frank SAURET",
+    "version": "2024.3",
+    "download": [
+      "boite_brique/"
+    ],
+    "repos": "https://github.com/FrankSAURET/Boite_brique",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\boite_brique"
+  },
+  "Engrenage": {
+    "type": "InkScape extension",
+    "name": "Engrenage",
+    "short_description": "Génère des engrenages paramétriques pour Inkscape.",
+    "author": "Frank SAURET",
+    "version": "2026.1",
+    "download": [
+      "Engrenage/"
+    ],
+    "repos": "https://github.com/FrankSAURET/Engrenage",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Engrenage\\Engrenage\\locale\\none\\LC_MESSAGES"
+  },
+  "Gear": {
+    "type": "InkScape extension",
+    "name": "Gear",
+    "short_description": "Generates parametric gears for Inkscape.",
+    "author": "Frank SAURET",
+    "version": "2026.1",
+    "download": [
+      "Engrenage/"
+    ],
+    "repos": "https://github.com/FrankSAURET/Engrenage",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Engrenage\\Engrenage\\locale\\en\\LC_MESSAGES"
+  },
+  "M à j": {
+    "type": "InkScape extension",
+    "name": "M à j",
+    "short_description": "Gestionnaire d'extensions InkScape.",
+    "author": "Frank SAURET",
+    "version": "2026.3",
+    "download": [
+      "Maj/"
+    ],
+    "repos": "https://github.com/FrankSAURET/Maj",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Maj\\locale\\none\\LC_MESSAGES"
+  },
+  "Optimisation pour découpe laser": {
+    "type": "InkScape extension",
+    "name": "Optimisation pour découpe laser",
+    "short_description": "Optimise les dessins SVG pour la découpe laser dans Inkscape, en supprimant les doublons et en améliorant les tracés.",
+    "author": "Frank SAURET",
+    "version": "2026.0",
+    "download": [
+      "OptimLaser/"
+    ],
+    "repos": "https://github.com/FrankSAURET/OptimLaser",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Optimlaser"
+  },
   "Remove duplicate lines": {
     "type": "InkScape extension",
     "name": "Remove duplicate lines",
-    "short_description": "An Inkscape extension to remove duplicate line segments with a tolerance option to detect segments as identical.",
+    "short_description": "Une extension Inkscape pour supprimer les segments de ligne dupliqués avec une option de tolérance pour détecter les segments comme identiques.",
     "author": "Ellen Wasbø",
     "version": "2026.1",
     "download": [
@@ -64,12 +88,24 @@
     "name": "Table",
     "short_description": "Draws a table with rounded corners.",
     "author": "Frank SAURET",
-    "version": "2026.2",
+    "version": "2026.1",
     "download": [
       "Tableau/"
     ],
     "repos": "https://github.com/FrankSAURET/Tableau",
-    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Tableau\\Tableau"
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Tableau\\locale\\en\\LC_MESSAGES"
+  },
+  "Tableau": {
+    "type": "InkScape extension",
+    "name": "Tableau",
+    "short_description": "Dessine un tableau avec des coins arrondis.",
+    "author": "Frank SAURET",
+    "version": "2026.1",
+    "download": [
+      "Tableau/"
+    ],
+    "repos": "https://github.com/FrankSAURET/Tableau",
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Tableau\\locale\\none\\LC_MESSAGES"
   },
   "Update Manager": {
     "type": "InkScape extension",
@@ -81,6 +117,6 @@
       "Maj/"
     ],
     "repos": "https://github.com/FrankSAURET/Maj",
-    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Maj\\locale\\none\\LC_MESSAGES"
+    "Installed_dir": "C:\\Users\\Frank\\AppData\\Roaming\\Inkscape\\extensions\\FrankSAURET\\Maj\\locale\\en\\LC_MESSAGES"
   }
 }
