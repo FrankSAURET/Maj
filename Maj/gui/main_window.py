@@ -16,6 +16,7 @@ from core.validator import Validator
 from core.config import Config
 import sys
 from i18n import _
+import i18n
 import json
 import urllib.request
 import webbrowser
@@ -44,6 +45,7 @@ class MainWindow(tk.Frame):
             ext_dir = os.path.join(user_dir, '.config', 'inkscape', 'extensions')
                
         installed_by_repo: dict[str, dict[str, Any]] = {}
+        current_lang: str = i18n.lang_code
         for root, _, files in os.walk(ext_dir):
             if 'Info.json' in files:
                 info_path = os.path.join(root, 'Info.json')
@@ -52,6 +54,20 @@ class MainWindow(tk.Frame):
                         info = json.load(f)
                     # Vérifier le type
                     if info.get('type') == 'InkScape extension':
+                        # Charger la traduction locale si langue != fr
+                        if current_lang and current_lang != 'fr':
+                            translated_path = os.path.join(
+                                root, 'locale', current_lang, 'LC_MESSAGES', 'Info.json'
+                            )
+                            if os.path.isfile(translated_path):
+                                try:
+                                    with open(translated_path, 'r', encoding='utf-8') as ft:
+                                        translated_info = json.load(ft)
+                                    for tkey in ('name', 'short_description'):
+                                        if tkey in translated_info:
+                                            info[tkey] = translated_info[tkey]
+                                except Exception:
+                                    pass
                         info['Installed_dir'] = root
                         local_name = info.get('name')
                         if local_name:
@@ -180,6 +196,8 @@ class MainWindow(tk.Frame):
 
             found = False
             repo_extensions: list[dict[str, Any]] = []
+            translated_exts: dict[str, dict[str, Any]] = {}  # clé = name FR
+            current_lang = i18n.lang_code
 
             # Tester toutes les branches possibles
             for branch in provider["alternative_main_branch"]:
@@ -199,6 +217,24 @@ class MainWindow(tk.Frame):
 
                         ext_items: list[Any] = ext_list['extensions'] if isinstance(ext_list, dict) and 'extensions' in ext_list else []  # type: ignore[assignment]
 
+                        # Télécharger la version traduite si langue != fr
+                        if current_lang and current_lang != 'fr':
+                            url_translated = self.provider_utils.build_file_url(
+                                provider, owner, repo, branch,
+                                f"locale/{current_lang}/LC_MESSAGES/list_of_inkscape_extensions.json"
+                            )
+                            try:
+                                with urllib.request.urlopen(url_translated, timeout=5, context=_create_ssl_context()) as resp_tr:
+                                    tr_data = resp_tr.read().decode("utf-8")
+                                    tr_list = json.loads(tr_data)
+                                    tr_items: list[Any] = tr_list.get('extensions', []) if isinstance(tr_list, dict) else []  # type: ignore[assignment]
+                                    for tr_ext in tr_items:  # type: ignore[assignment]
+                                        tr_name: str = tr_ext.get('_original_name') or tr_ext.get('name') or ''  # type: ignore[union-attr]
+                                        if tr_name:
+                                            translated_exts[tr_name] = tr_ext
+                            except Exception:
+                                pass  # Pas de traduction disponible, on continue
+
                         for ext in ext_items:  # type: ignore[assignment]
                             new_ext: dict[str, Any] = {}
                             for key in [
@@ -208,6 +244,13 @@ class MainWindow(tk.Frame):
                             ]:
                                 if key in ext:
                                     new_ext[key] = ext[key]
+                            # Appliquer les traductions si disponibles
+                            ext_name_fr: str = str(ext.get('name', ''))  # type: ignore[union-attr]
+                            if ext_name_fr in translated_exts:
+                                tr = translated_exts[ext_name_fr]
+                                for tkey in ('name', 'short_description', 'subject', 'start_here'):
+                                    if tkey in tr:
+                                        new_ext[tkey] = tr[tkey]
                             repo_extensions.append(new_ext)
 
                         found = True
