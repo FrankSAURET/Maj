@@ -47,6 +47,11 @@ class MainWindow(tk.Frame):
         installed_by_repo: dict[str, dict[str, Any]] = {}
         current_lang: str = i18n.lang_code
         import urllib.request
+
+        # Passe 1 : Collecter toutes les entrées avec leur locale, groupées par URL de dépôt
+        # Cela permet de ne garder qu'une seule version par extension (selon la langue courante)
+        entries_by_repos: dict[str, list[tuple[str, str, dict[str, Any]]]] = {}  # clé repos -> [(locale, root, info)]
+
         for root, _, files in os.walk(ext_dir):
             if 'Info.json' in files:
                 info_path = os.path.join(root, 'Info.json')
@@ -55,62 +60,107 @@ class MainWindow(tk.Frame):
                         info = json.load(f)
                     # Vérifier le type
                     if info.get('type') == 'InkScape extension':
-                        download_val = info.get('download', [0])
-                        download_dir = str(download_val[0])
-                        repo_url = info.get('repos', None)
-                        info_to_write = dict(info)
-                        # Si langue != fr, tenter de charger Info.json en ligne
-                        if current_lang and current_lang != 'fr' and repo_url:
-                            # On suppose que repo_url est une URL GitHub brute ou similaire
-                            # On tente de récupérer Info.json traduit depuis le dépôt distant
-                            try:
-                                # Déduire le provider
-                                provider = self.provider_utils.get_provider_for_url(repo_url)
-                                if provider:
-                                    owner, repo = self.provider_utils.split_repo_url(repo_url, provider)
-                                    # Tester toutes les branches possibles
-                                    found_online = False
-                                    for branch_try in provider["alternative_main_branch"]:
-                                        url_online = self.provider_utils.build_file_url(
-                                            provider,
-                                            owner,
-                                            repo,
-                                            branch_try,
-                                            f"{download_dir}locale/{current_lang}/LC_MESSAGES/Info.json"
-                                        )
-                                        try:
-                                            with urllib.request.urlopen(url_online, timeout=5, context=_create_ssl_context()) as resp:
-                                                online_info = json.load(resp)
-                                            # On fusionne les champs traduits dans info_to_write
-                                            for tkey in ('name', 'short_description'):
-                                                if tkey in online_info:
-                                                    info_to_write[tkey] = online_info[tkey]
-                                            found_online = True
-                                            break
-                                        except Exception:
-                                            continue
-                                    # Si pas trouvé en ligne, fallback sur locale locale
-                                    if not found_online:
-                                        translated_path = os.path.join(
-                                            root, download_dir, 'locale', current_lang, 'LC_MESSAGES', 'Info.json'
-                                        )
-                                        if os.path.isfile(translated_path):
-                                            try:
-                                                with open(translated_path, 'r', encoding='utf-8') as ft:
-                                                    translated_info = json.load(ft)
-                                                for tkey in ('name', 'short_description'):
-                                                    if tkey in translated_info:
-                                                        info_to_write[tkey] = translated_info[tkey]
-                                            except Exception:
-                                                pass
-                            except Exception:
-                                pass
-                        info_to_write['Installed_dir'] = root
-                        local_name = info_to_write.get('name')
-                        if local_name:
-                            installed_by_repo[local_name] = info_to_write
+                        # Détecter la locale depuis le chemin du répertoire
+                        # Ex: .../locale/none/LC_MESSAGES -> "none" (= français par défaut)
+                        #     .../locale/en/LC_MESSAGES   -> "en"
+                        normalized_root = root.replace('\\', '/')
+                        entry_locale = 'none'
+                        parts = normalized_root.split('/')
+                        for i, part in enumerate(parts):
+                            if part == 'locale' and i + 1 < len(parts):
+                                entry_locale = parts[i + 1]
+                                break
+
+                        repo_url = info.get('repos', '') or root
+                        if repo_url not in entries_by_repos:
+                            entries_by_repos[repo_url] = []
+                        entries_by_repos[repo_url].append((entry_locale, root, info))
                 except Exception as e:
                     self.log(f"Erreur lecture {info_path}: {e}", erreur=True)
+
+        # Passe 2 : Pour chaque extension, sélectionner la version correspondant à la langue courante
+        for _repo_key, entries in entries_by_repos.items():
+            chosen_locale = None
+            chosen_root = None
+            chosen_info = None
+
+            # Chercher la version correspondant à la langue courante
+            for entry_locale, root, info in entries:
+                # "none" est la locale par défaut = français
+                effective_lang = 'fr' if entry_locale == 'none' else entry_locale
+                if effective_lang == current_lang:
+                    chosen_locale = entry_locale
+                    chosen_root = root
+                    chosen_info = info
+                    break
+
+            # Fallback : prendre la version "none" (défaut, français)
+            if chosen_info is None:
+                for entry_locale, root, info in entries:
+                    if entry_locale == 'none':
+                        chosen_locale = entry_locale
+                        chosen_root = root
+                        chosen_info = info
+                        break
+
+            # Dernier fallback : première entrée disponible
+            if chosen_info is None:
+                chosen_locale, chosen_root, chosen_info = entries[0]
+
+            assert chosen_root is not None
+            assert chosen_locale is not None
+            info_to_write = dict(chosen_info)
+            download_val = info_to_write.get('download', [0])
+            download_dir = str(download_val[0])
+            actual_repo_url = info_to_write.get('repos', None)
+
+            # Si la locale sélectionnée ne correspond pas à la langue courante,
+            # tenter de charger le Info.json traduit (en ligne puis local)
+            selected_effective_lang = 'fr' if chosen_locale == 'none' else chosen_locale
+            if current_lang != selected_effective_lang and actual_repo_url:
+                try:
+                    provider = self.provider_utils.get_provider_for_url(actual_repo_url)
+                    if provider:
+                        owner, repo = self.provider_utils.split_repo_url(actual_repo_url, provider)
+                        found_online = False
+                        for branch_try in provider["alternative_main_branch"]:
+                            url_online = self.provider_utils.build_file_url(
+                                provider,
+                                owner,
+                                repo,
+                                branch_try,
+                                f"{download_dir}locale/{current_lang}/LC_MESSAGES/Info.json"
+                            )
+                            try:
+                                with urllib.request.urlopen(url_online, timeout=5, context=_create_ssl_context()) as resp:
+                                    online_info = json.load(resp)
+                                for tkey in ('name', 'short_description'):
+                                    if tkey in online_info:
+                                        info_to_write[tkey] = online_info[tkey]
+                                found_online = True
+                                break
+                            except Exception:
+                                continue
+                        if not found_online:
+                            translated_path = os.path.join(
+                                chosen_root, 'locale', current_lang, 'LC_MESSAGES', 'Info.json'
+                            )
+                            if os.path.isfile(translated_path):
+                                try:
+                                    with open(translated_path, 'r', encoding='utf-8') as ft:
+                                        translated_info = json.load(ft)
+                                    for tkey in ('name', 'short_description'):
+                                        if tkey in translated_info:
+                                            info_to_write[tkey] = translated_info[tkey]
+                                except Exception:
+                                    pass
+                except Exception:
+                    pass
+
+            info_to_write['Installed_dir'] = chosen_root
+            local_name = info_to_write.get('name')
+            if local_name:
+                installed_by_repo[local_name] = info_to_write
         # Tri alphabétique
         sorted_installed = dict(sorted(installed_by_repo.items(), key=lambda x: x[0].lower()))
         # Écriture du fichier installed_extensions.json

@@ -1,0 +1,18 @@
+
+
+python -m nuitka Maj/Maj.py `
+  --onefile `
+  --standalone `
+  --lto=yes `
+  --clang `
+  --enable-plugin=tk-inter `
+  --remove-output `
+  --windows-console-mode=disable `
+  --include-data-dir=Maj/assets=assets `
+  --include-data-dir=Maj/data=data `
+  --include-data-dir=Maj/locale=locale `
+  --include-data-file=Maj/config.json=config.json `
+  --include-data-file=Maj/Maj.ico=Maj/Maj.ico `
+  --assume-yes-for-downloads `
+  --windows-icon-from-ico=Maj/Maj.ico `
+  --output-filename=Maj.exe

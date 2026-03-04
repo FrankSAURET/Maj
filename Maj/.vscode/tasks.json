@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Compiler avec Nuitka optimisé",
+			"type": "shell",
+			"command": "nuitka --onefile --standalone --lto=yes --clang --enable-plugin=tk-inter --remove-output --nofollow-imports --include-data-file=mon_icone.ico=mon_icone.ico --output-filename=Maj.exe Maj.py",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$python"
+			],
+			"group": "build"
+		}
+	]
+}
