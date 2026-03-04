@@ -7,6 +7,8 @@
 
 ## 🚀 Fonctionnalités principales
 
+> Toutes ces fonctions sont accessibles directement depuis l’exécutable Windows autonome, sans avoir besoin d’ouvrir Inkscape.
+
 - **🔍 Scan des extensions installées**  
 	Parcourt le dossier utilisateur, détecte les extensions, affiche leur état et version.
 
@@ -42,6 +44,14 @@ Maj/
 
 1. Copier le sous-dossier `Maj` dans le répertoire des extensions Inkscape.
 2. Dans InkScape, lancer `Extension > Mise à jour des extensions de Frank SAURET` pour démarrer le gestionnaire (tout en bas du menu).
+
+## 🪟 Version exécutable Windows
+
+Un exécutable Windows (.exe) est disponible : il permet d’installer, mettre à jour et gérer directement vos extensions Inkscape, sans passer par Inkscape lui-même.
+
+- Téléchargez et lancez simplement le fichier `Maj.exe`.
+- Toutes les fonctionnalités sont accessibles depuis l’interface graphique.
+- Idéal pour gérer vos extensions en dehors d’Inkscape, ou sur une machine sans installation complète d’Inkscape.
 
 ## 👨‍💻 Auteur & Licence
 
